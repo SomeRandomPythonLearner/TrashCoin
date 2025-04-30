@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Trash Coin Game</title>
+</head>
+<body>
+  <h1>Welcome to Trash Coin</h1>
+  <p>Your current balance: {{ coins }} TrashCoins</p>
+
+  <form method="POST">
+    <label>Choose action:</label><br>
+    <button type="submit" name="action" value="view">View</button>
+    <button type="submit" name="action" value="value">Value</button>
+    <button type="submit" name="action" value="load">Load</button><br><br>
+
+    <label>Mine:</label>
+    <input type="number" name="num_mines" placeholder="How many?" min="1">
+    <button type="submit" name="action" value="mine">Mine</button>
+  </form>
+
+  <p style="margin-top:20px;">{{ message }}</p>
+</body>
+</html>
