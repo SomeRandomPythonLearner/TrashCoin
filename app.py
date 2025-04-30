@@ -55,6 +55,29 @@ def index():
                 message = "Please enter a valid number of minings."
 
     return render_template("index.html", message=message, coins=round(session['coins'], 2))
+from flask import Flask, render_template, request, redirect, url_for, session
+
+@app.route('/start_mining', methods=['POST'])
+def start_mining():
+    num_mines = int(request.form['num_mines'])
+    session['num_mines'] = num_mines
+    cost = num_mines / session['s']
+    return render_template('confirm.html', cost=round(cost, 2), num_mines=num_mines)
+
+@app.route('/confirm_mining', methods=['POST'])
+def confirm_mining():
+    num_mines = session.pop('num_mines', 0)
+    cost = num_mines / session['s']
+    session['coins'] -= cost
+
+    gained = 0
+    for _ in range(num_mines):
+        if random.randint(0, 10) == random.randint(0, 10) == random.randint(0, 10):
+            session['coins'] += 1
+            gained += 1
+
+    profit = gained - cost
+    return render_template('result.html', gained=gained, cost=round(cost, 2), profit=round(profit, 2))
 
 if __name__ == '__main__':
     app.run(debug=True)
