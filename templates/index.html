@@ -2,35 +2,39 @@
 <html>
 <head>
   <title>TrashCoin</title>
- <script>
-  function updateValue() {
-    fetch('/get_value')
-      .then(response => response.json())
-      .then(data => {
-        document.getElementById('mine-value').innerText = data.value;
-      });
-  }
+  <script>
+    function updateValue() {
+      fetch('/get_value')
+        .then(response => response.json())
+        .then(data => {
+          document.getElementById('mine-value').innerText = data.value.toFixed(6);
+        });
+    }
 
-  setInterval(updateValue, 1000); // Update every second
-  window.onload = updateValue;
-</script>
+    setInterval(updateValue, 1000); // Update every second
+    window.onload = updateValue;
+  </script>
 </head>
 <body>
   <h1>Welcome to TrashCoin!</h1>
-  <h5>Welcome to Trash Coin, a meme-coin that was created for fun (1 TrashCoin = 0$). You will start with 10 TrashCoins. Type 'view' to see how much TrashCoin you have, type 'mine' to try and mine,
-    type 'load' to load previous data (mining overrides previous save data if not loaded on), type 'value' to see the value of 1 mine in TrashCoins (the lower the better). The value of a mine changes randomly.
-    If you run out of TrashCoin, you can still mine. You can NOT trade coins for real money (as they are worthless), please treat this just as a game, no real money is involved.
-    The mining is done by picking 3 random numbers between 0 and 10, and if they all match, you get a coin. Please use responsibly, and remember NO REAL MONEY IS OR SHOULD BE INVOLVED</h5>
+  <h5>
+    Welcome to Trash Coin, a meme-coin that was created for fun (1 TrashCoin = 0$). You will start with 10 TrashCoins. Enter the amount of mines into the mine field to try and mine, 
+    you can see the cost of one mine below (the lower the better). The value of a mine changes randomly. If you run out of TrashCoin, you can still mine. You can NOT trade coins for real money
+    (as they are worthless), please treat this just as a game, no real money is involved. The mining is done by picking 3 random numbers between 0 and 10, and if they all match, you get a coin. 
+    Please use responsibly, and remember NO REAL MONEY IS OR SHOULD BE INVOLVED
+  </h5>
+
   <p>You have {{ coins }} coins.</p>
- <p>Current cost per mine: <span id="mine-value">{{ value }}</span> TrashCoins</p>
-<form method="POST" action="/mine">
-  <input type="number" name="mine_count" required>
-  <button type="submit">Mine</button>
-</form>
-    <label for="num_mines">How many times do you want to mine?</label><br>
-    <input type="number" name="num_mines" required><br>
-    <input type="submit" value="Calculate Cost">
+  <p>Current cost per mine: <span id="mine-value">{{ value }}</span> TrashCoins</p>
+
+  {% if message %}
+    <p><strong>{{ message }}</strong></p>
+  {% endif %}
+
+  <form method="POST" action="/mine">
+    <label for="mine_count">How many times do you want to mine?</label><br>
+    <input type="number" id="mine_count" name="mine_count" min="1" required><br><br>
+    <button type="submit">Mine</button>
   </form>
 </body>
-</html>
 </html>
