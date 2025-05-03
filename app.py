@@ -15,19 +15,32 @@ def index():
 
 @app.route('/get_value')
 def get_value():
-    session['s'] += random.randint(-10, 10) / 1000000
-    value = 1 / session['s']
-    return {'value': value}
+    session['s'] += random.uniform(-0.01, 0.01)
+    cost = 1 / session['s']
+    session['current_cost'] = cost  # store this value for later mining
+    return {'value': cost}
 
-@app.route('/start_mining', methods=['POST'])
-def start_mining():
-    try:
-        num_mines = int(request.form['num_mines'])
-        session['num_mines'] = num_mines
-        cost = num_mines / session['s']
-        return render_template('confirm.html', cost=round(cost, 2), num_mines=num_mines)
-    except Exception as e:
-        return f"Error: {e}"
+@app.route('/mine', methods=['POST'])
+def mine():
+    if 'coins' not in session or 'current_cost' not in session:
+        return redirect(url_for('index'))
+
+    cost = session['current_cost']  # use frozen cost value
+    n = int(request.form['mine_count'])
+    total_cost = n * cost
+
+    if session['coins'] < total_cost:
+        message = "Not enough coins."
+    else:
+        session['coins'] -= total_cost
+        gained = sum(
+            1 for _ in range(n)
+            if random.randint(0, 10) == random.randint(0, 10) == random.randint(0, 10)
+        )
+        session['coins'] += gained
+        message = f"You spent {total_cost:.4f} coins and gained {gained} coins. Profit: {gained - total_cost:.4f} coins."
+
+    return render_template("index.html", message=message, coins=round(session['coins'], 2), value=session['current_cost'])
 
 @app.route('/confirm_mining', methods=['POST'])
 def confirm_mining():
