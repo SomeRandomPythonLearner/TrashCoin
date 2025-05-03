@@ -59,11 +59,13 @@ from flask import Flask, render_template, request, redirect, url_for, session
 
 @app.route('/start_mining', methods=['POST'])
 def start_mining():
-    num_mines = int(request.form['num_mines'])
-    session['num_mines'] = num_mines
-    cost = num_mines / session['s']
-    return render_template('confirm.html', cost=round(cost, 2), num_mines=num_mines)
-
+    try:
+        num_mines = int(request.form['num_mines'])
+        session['num_mines'] = num_mines
+        cost = num_mines / session['s']
+        return render_template('confirm.html', cost=round(cost, 2), num_mines=num_mines)
+    except Exception as e:
+        return f"Error: {e}"
 @app.route('/confirm_mining', methods=['POST'])
 def confirm_mining():
     num_mines = session.pop('num_mines', 0)
