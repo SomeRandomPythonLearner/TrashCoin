@@ -22,7 +22,7 @@
     If you run out of TrashCoin, you can still mine. You can NOT trade coins for real money (as they are worthless), please treat this just as a game, no real money is involved.
     The mining is done by picking 3 random numbers between 0 and 10, and if they all match, you get a coin. Please use responsibly, and remember NO REAL MONEY IS OR SHOULD BE INVOLVED</h5>
   <p>You have {{ coins }} coins.</p>
-  <p>Current cost per mine: {{ value }} TrashCoins</p>
+ <p>Current cost per mine: <span id="mine-value">{{ value }}</span> TrashCoins</p>
   <form method="POST" action="/start_mining">
     <label for="num_mines">How many times do you want to mine?</label><br>
     <input type="number" name="num_mines" required><br>
