@@ -1,6 +1,20 @@
 <!DOCTYPE html>
 <html>
-<head><title>TrashCoin</title></head>
+<head>
+  <title>TrashCoin</title>
+  <script>
+    function updateValue() {
+      fetch('/get_value')
+        .then(response => response.json())
+        .then(data => {
+          document.getElementById('mine-value').innerText = data.value;
+        });
+    }
+
+    setInterval(updateValue, 1000); // update every second
+    window.onload = updateValue;
+  </script>
+</head>
 <body>
   <h1>Welcome to TrashCoin!</h1>
   <h5>Welcome to Trash Coin, a meme-coin that was created for fun (1 TrashCoin = 0$). You will start with 10 TrashCoins. Type 'view' to see how much TrashCoin you have, type 'mine' to try and mine,
