@@ -13,6 +13,12 @@ def index():
     value = round(1 / session['s'], 4)
     return render_template('index.html', coins=round(session['coins'], 2), value=value)
 
+@app.route('/get_value')
+def get_value():
+    session['s'] += random.randint(-10, 10) / 1000000
+    value = round(1 / session['s'], 4)
+    return {'value': value}
+
 @app.route('/start_mining', methods=['POST'])
 def start_mining():
     try:
