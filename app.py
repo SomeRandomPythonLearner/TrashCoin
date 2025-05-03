@@ -16,7 +16,7 @@ def index():
 @app.route('/get_value')
 def get_value():
     session['s'] += random.randint(-10, 10) / 1000000
-    value = 1 / session['s'], 4
+    value = 1 / session['s']
     return {'value': value}
 
 @app.route('/start_mining', methods=['POST'])
