@@ -4,8 +4,10 @@
   <title>Trash Coin Game</title>
 </head>
 <body>
-  <h1>Welcome to Trash Coin</h1>
-  <p>Your current balance: {{ coins }} TrashCoins</p>
+  <h1>Welcome to Trash Coin, a meme-coin that was created for fun (1 TrashCoin = 0$). You will start with 10 TrashCoins. Type 'view' to see how much TrashCoin you have, type 'mine' to try and mine,
+    type 'load' to load previous data (mining overrides previous save data if not loaded on), type 'value' to see the value of 1 mine in TrashCoins (the lower the better). The value of a mine changes randomly.
+    If you run out of TrashCoin, you can still mine. You can NOT trade coins for real money (as they are worthless), please treat this just as a game, no real money is involved. 
+    The mining is done by picking 3 random numbers between 0 and 10, and if they all match, you get a coin. Please use responsibly, and remember NO REAL MONEY IS OR SHOULD BE INVOLVED</h1>
 
   <form method="POST">
     <label>Choose action:</label><br>
@@ -13,10 +15,11 @@
     <button type="submit" name="action" value="value">Value</button>
     <button type="submit" name="action" value="load">Load</button><br><br>
 
-    <label>Mine:</label>
-    <input type="number" name="num_mines" placeholder="How many?" min="1">
-    <button type="submit" name="action" value="mine">Mine</button>
-  </form>
+<form method="POST" action="/start_mining">
+  <label for="num_mines">How many times do you want to mine?</label><br>
+  <input type="number" name="num_mines" required><br>
+  <input type="submit" value="Calculate Cost">
+</form>
 
   <p style="margin-top:20px;">{{ message }}</p>
 </body>
