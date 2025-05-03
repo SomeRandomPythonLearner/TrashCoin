@@ -3,7 +3,7 @@ import random
 import time
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_key_here'  # Needed for session
+app.secret_key = 'trashcoinkey'  # Needed for session
 
 def get_value():
     return round(100 + random.randint(-10, 10)/10, 6)
