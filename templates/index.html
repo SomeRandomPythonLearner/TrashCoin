@@ -2,18 +2,18 @@
 <html>
 <head>
   <title>TrashCoin</title>
-  <script>
-    function updateValue() {
-      fetch('/get_value')
-        .then(response => response.json())
-        .then(data => {
-          document.getElementById('mine-value').innerText = data.value;
-        });
-    }
+ <script>
+  function updateValue() {
+    fetch('/get_value')
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById('mine-value').innerText = data.value;
+      });
+  }
 
-    setInterval(updateValue, 1000); // update every second
-    window.onload = updateValue;
-  </script>
+  setInterval(updateValue, 1000); // Update every second
+  window.onload = updateValue;
+</script>
 </head>
 <body>
   <h1>Welcome to TrashCoin!</h1>
