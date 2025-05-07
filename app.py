@@ -29,7 +29,7 @@ def calculate_cost():
         'index.html',
         coins=round(session['coins'], 2),
         value=round(session['current_cost'], 6),
-        confirm_cost=cost
+        confirm_cost=cost,
         mine_count=mine_count
     )
 
