@@ -31,10 +31,20 @@
     <p><strong>{{ message }}</strong></p>
   {% endif %}
 
-  <form method="POST" action="/mine">
-    <label for="mine_count">How many times do you want to mine?</label><br>
-    <input type="number" id="mine_count" name="mine_count" min="1" required><br><br>
-    <button type="submit">Mine</button>
-  </form>
+  
+
+  {% if confirm_cost %}
+    <p>This will cost: <strong>{{ confirm_cost }}</strong> TrashCoins.</p>
+    <form method="POST" action="/mine">
+      <input type="hidden" name="mine_count" value="{{ mine_count }}">
+      <button type="submit">Proceed to Mine</button>
+    </form>
+  {% else %}
+    <form method="POST" action="/calculate_cost">
+      <label for="mine_count">How many times do you want to mine?</label><br>
+      <input type="number" id="mine_count" name="mine_count" min="1" required><br><br>
+      <button type="submit">Calculate Cost</button>
+    </form>
+  {% endif %}
 </body>
 </html>
