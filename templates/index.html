@@ -25,13 +25,12 @@
   </h5>
 
   <p>You have {{ coins }} coins.</p>
-  <p>Current cost per mine: <span id="mine-value">{{ value }}</span> TrashCoins</p>
+  <p>Current cost per mine is aproximately: <span id="mine-value">{{ value }}</span> TrashCoins</p>
 
   {% if message %}
     <p><strong>{{ message }}</strong></p>
   {% endif %}
 
-  
 
   {% if confirm_cost %}
     <p>This will cost: <strong>{{ confirm_cost }}</strong> TrashCoins.</p>
