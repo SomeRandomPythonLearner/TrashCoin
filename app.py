@@ -19,6 +19,18 @@ def get_value():
     cost = 1 / session['s']
     session['current_cost'] = cost  # store this value for later mining
     return {'value': cost}
+    
+@app.route('/calculate_cost', methods=['POST'])
+def calculate_cost():
+    mine_count = int(request.form['mine_count'])
+    cost = mine_count * session.get('current_cost', 0.01)
+    session['pending_mines'] = mine_count
+    return render_template(
+        'index.html',
+        coins=round(session['coins'], 2),
+        value=round(session['current_cost'], 6),
+        confirm_cost=round(cost, 4),
+        mine_count=mine_count
 
 @app.route('/mine', methods=['POST'])
 def mine():
