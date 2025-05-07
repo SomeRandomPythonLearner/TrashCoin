@@ -31,6 +31,7 @@ def calculate_cost():
         value=round(session['current_cost'], 6),
         confirm_cost=round(cost, 4),
         mine_count=mine_count
+    )
 
 @app.route('/mine', methods=['POST'])
 def mine():
