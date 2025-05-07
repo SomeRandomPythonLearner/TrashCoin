@@ -32,28 +32,40 @@ def calculate_cost():
         confirm_cost=cost,
         mine_count=mine_count
     )
-
 @app.route('/mine', methods=['POST'])
 def mine():
-    if 'coins' not in session or 'current_cost' not in session:
+    if 'coins' not in session:
         return redirect(url_for('index'))
 
-    cost = session['current_cost']  # use frozen cost value
-    n = int(request.form['mine_count'])
-    total_cost = n * cost
+    cost = session.pop('pending_cost', 0)
+    n = session.pop('pending_mines', 0)
 
-    if session['coins'] < total_cost:
+    if session['coins'] < cost:
         message = "Not enough coins."
-    else:
-        session['coins'] -= total_cost
-        gained = sum(
-            1 for _ in range(n)
-            if random.randint(0, 10) == random.randint(0, 10) == random.randint(0, 10)
+        return render_template(
+            "index.html",
+            message=message,
+            coins=round(session['coins'], 2),
+            value=round(session['current_cost'], 6)
         )
-        session['coins'] += gained
-        message = f"You spent {total_cost:.4f} coins and gained {gained} coins. Profit: {gained - total_cost:.4f} coins."
 
-    return render_template("index.html", message=message, coins=round(session['coins'], 2), value=session['current_cost'])
+    session['coins'] -= cost  # ✅ subtract exact cost BEFORE mining
+
+    gained = 0
+    for _ in range(n):
+        if random.randint(0, 10) == random.randint(0, 10) == random.randint(0, 10):
+            session['coins'] += 1
+            gained += 1
+
+    profit = gained - cost
+    message = f"You spent {cost:.4f} coins and gained {gained} coins. Profit: {gained - cost:.4f} coins."
+
+    return render_template(
+        "index.html",
+        message=message,
+        coins=round(session['coins'], 2),
+        value=round(session['current_cost'], 6)
+    )
 
 @app.route('/confirm_mining', methods=['POST'])
 def confirm_mining():
