@@ -24,7 +24,7 @@ def get_value():
 def calculate_cost():
     mine_count = int(request.form['mine_count'])
     cost = mine_count * session.get('current_cost', 0.01)
-    session['pending_mines'] = mine_count
+    session['pending_cost'] = cost
     return render_template(
         'index.html',
         coins=round(session['coins'], 2),
