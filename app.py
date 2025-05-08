@@ -10,8 +10,8 @@ def index():
         session['coins'] = 10
     if 's' not in session:
         session['s'] = 100
-    value = round(1 / session['s'], 4)
-    return render_template('index.html', coins=round(session['coins'], 2), value=value)
+    value = 1 / session['s'],
+    return render_template('index.html', coins=session['coins'], value=value)
 
 @app.route('/get_value')
 def get_value():
@@ -27,8 +27,8 @@ def calculate_cost():
     session['pending_cost'] = cost
     return render_template(
         'index.html',
-        coins=round(session['coins'], 2),
-        value=round(session['current_cost'], 6),
+        coins=session['coins'],
+        value=session['current_cost'],
         confirm_cost=cost,
         mine_count=mine_count
     )
@@ -40,16 +40,7 @@ def mine():
     cost = session.pop('pending_cost', 0)
     n = session.pop('pending_mines', 0)
 
-    if session['coins'] < cost:
-        message = "Not enough coins."
-        return render_template(
-            "index.html",
-            message=message,
-            coins=round(session['coins'], 2),
-            value=round(session['current_cost'], 6)
-        )
-
-    session['coins'] -= cost  # ✅ subtract exact cost BEFORE mining
+    session['coins'] -= cost  
 
     gained = 0
     for _ in range(n):
@@ -63,8 +54,8 @@ def mine():
     return render_template(
         "index.html",
         message=message,
-        coins=round(session['coins'], 2),
-        value=round(session['current_cost'], 6)
+        coins=session['coins'],
+        value=session['current_cost'],
     )
 
 @app.route('/confirm_mining', methods=['POST'])
@@ -83,7 +74,7 @@ def confirm_mining():
             gained += 1
 
     profit = gained - cost
-    return render_template('result.html', gained=gained, cost=round(cost, 2), profit=round(profit, 2), coins=round(session['coins'], 2))
+    return render_template('result.html', gained=gained, cost=cost, profit=profit, coins=session['coins'],)
 
 if __name__ == '__main__':
     app.run(debug=True)
