@@ -49,7 +49,7 @@ def mine():
             gained += 1
 
     profit = gained - cost
-    message = f"You spent {cost:.4f} coins and gained {gained} coins. Profit: {gained - cost:.4f} coins."
+    message = f"You spent {cost} coins and gained {gained} coins. Profit: {gained - cost:} coins."
 
     return render_template(
         "index.html",
