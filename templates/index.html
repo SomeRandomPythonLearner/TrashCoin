@@ -3,6 +3,20 @@
 <head>
   <title>TrashCoin</title>
   <script>
+  function startMiningDelay() {
+    const mineCount = document.getElementById('mine_count').value;
+    const cost = parseFloat(document.getElementById('mine-value').innerText);
+    const delay = Math.ceil(cost * mineCount * 12 * 1000 + 1000); // milliseconds
+
+    document.getElementById('mine-button').disabled = true;
+    document.getElementById('mine-status').innerText = "Mining in progress... Please wait.";
+
+    setTimeout(() => {
+      document.getElementById('mine-form').submit();
+    }, delay);
+  }
+</script>
+  <script>
     function updateValue() {
       fetch('/get_value')
         .then(response => response.json())
