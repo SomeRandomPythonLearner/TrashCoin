@@ -26,7 +26,7 @@
   </h5>
 
   <p>You have {{ coins }} coins.</p>
-  <p>Current cost per mine is: <span id="mine-value">{{ value }}</span> TrashCoins</p>
+  <p>Current cost per mine is: <span id="mine-value">{{ value | float }}</span>  TrashCoins</p>
 
   {% if message %}
     <p><strong>{{ message }}</strong></p>
