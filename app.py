@@ -34,47 +34,47 @@ def calculate_cost():
     )
 @app.route('/mine', methods=['POST'])
 def mine():
-    if 'coins' not in session:
+    if 'coins' not in session or 'current_cost' not in session:
         return redirect(url_for('index'))
 
-    cost = session.pop('pending_cost', 0)
-    n = session.pop('pending_mines', 0)
+    cost_per_mine = session['current_cost']
+    mine_count = int(request.form['mine_count'])
+    total_cost = mine_count * cost_per_mine
 
-    session['coins'] -= cost  
+    # Allow mining even with negative coins
+    session['coins'] -= total_cost
 
+    # Perform mining
     gained = 0
-    for _ in range(n):
-        if random.randint(0, 10) == random.randint(0, 10) == random.randint(0, 10):
-            session['coins'] += 1
+    for _ in range(mine_count):
+        a, b, c = random.randint(0, 10), random.randint(0, 10), random.randint(0, 10)
+        if a == b == c:
             gained += 1
+            session['coins'] += 1
 
-    profit = gained - cost
-    message = f"You spent {cost} coins and gained {gained} coins. Profit: {gained - cost:} coins."
+    profit = gained - total_cost
+
+    # Store results for confirmation
+    session['last_result'] = {
+        'gained': gained,
+        'cost': total_cost,
+        'profit': profit,
+        'mine_count': mine_count
+    }
+
+    return redirect('/confirm_mining')
+
+@app.route('/confirm_mining', methods=['GET'])
+def confirm_mining():
+    result = session.pop('last_result', None)
+    if not result:
+        return redirect(url_for('index'))
 
     return render_template(
-        "index.html",
-        message=message,
+        'result.html',
+        gained=result['gained'],
+        cost=result['cost'],
+        profit=result['profit'],
         coins=session['coins'],
-        value=session['current_cost'],
+        mine_count=result['mine_count']
     )
-
-@app.route('/confirm_mining', methods=['POST'])
-def confirm_mining():
-    num_mines = session.pop('num_mines', 0)
-    cost = num_mines / session['s']
-    session['coins'] -= cost
-
-    gained = 0
-    for _ in range(num_mines):
-        a = random.randint(0, 10)
-        b = random.randint(0, 10)
-        c = random.randint(0, 10)
-        if a == b == c:
-            session['coins'] += 1
-            gained += 1
-
-    profit = gained - cost
-    return render_template('result.html', gained=gained, cost=cost, profit=profit, coins=session['coins'],)
-
-if __name__ == '__main__':
-    app.run(debug=True)
