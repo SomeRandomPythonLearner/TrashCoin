@@ -50,7 +50,7 @@
   {% if confirm_cost %}
     <p>This will cost: <strong>{{ confirm_cost }}</strong> TrashCoins.</p>
     <form method="POST" action="/mine" id="mine-form" onsubmit="startMiningDelay(); return false;">
-      <input type="hidden" name="mine_count" value="{{ mine_count }}">
+      <input type="hidden" id="mine_count" name="mine_count" value="{{ mine_count }}">
       <button type="submit" id="mine-button">Proceed to Mine</button>
     </form>
     <p id="mine-status"></p>
