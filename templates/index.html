@@ -6,7 +6,7 @@
   function startMiningDelay() {
     const mineCount = document.getElementById('mine_count').value;
     const cost = parseFloat(document.getElementById('mine-value').innerText);
-    const delay = Math.ceil(cost * mineCount * 12 * 1000 + 1000); // milliseconds
+    const delay = Math.ceil(cost * mineCount * 1000 + 2000); // milliseconds
 
     document.getElementById('mine-button').disabled = true;
     document.getElementById('mine-status').innerText = "Mining in progress... Please wait.";
